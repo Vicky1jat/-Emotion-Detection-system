@@ -5,10 +5,10 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def emotion_detect():
+    """Handles emotion detection for a given text passed as query parameter."""
     text_to_analyze = request.args.get("textToAnalyze")
     response = emotion_detector(text_to_analyze)
 
-    # Error handling for invalid or blank input
     if response['dominant_emotion'] is None:
         return "Invalid text! Please try again!"
 
@@ -19,12 +19,15 @@ def emotion_detect():
     sadness = response['sadness']
     dominant_emotion = response['dominant_emotion']
 
-    return ("For the given statement, the system response is 'anger': {}, 'disgust': {}, 'fear': {}, "
-            "'joy': {}, and 'sadness': {}. The dominant emotion is {}."
-            .format(anger, disgust, fear, joy, sadness, dominant_emotion))
+    return (
+        f"For the given statement, the system response is 'anger': {anger}, "
+        f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}, "
+        f"and 'sadness': {sadness}. The dominant emotion is {dominant_emotion}."
+    )
 
 @app.route("/")
 def render_index_page():
+    """Renders the index page of the application."""
     return render_template('index.html')
 
 if __name__ == "__main__":
